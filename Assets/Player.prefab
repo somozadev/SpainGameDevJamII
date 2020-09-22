@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 138765859611184059}
   - component: {fileID: 1433625660403693193}
+  - component: {fileID: 605064823}
   - component: {fileID: 138765859611184056}
   - component: {fileID: 138765859611184053}
   - component: {fileID: 138765859611184052}
@@ -19,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &138765859611184059
 Transform:
   m_ObjectHideFlags: 0
@@ -67,6 +68,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &605064823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138765859611184057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e8aa41043037434b89996c8f518bc04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hand: {fileID: 0}
 --- !u!114 &138765859611184056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,10 +93,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1138b90a0dfcf8b46a33647e9e351695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateDirection: {x: 0, y: 0, z: 0}
+  moveInput: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0, z: 0}
+  rotateInput: {x: 0, y: 0}
+  rotateDirection: {x: 0, y: 0, z: 0}
   speed: 10
-  rotSpeed: 1
 --- !u!54 &138765859611184053
 Rigidbody:
   m_ObjectHideFlags: 0

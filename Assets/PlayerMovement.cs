@@ -6,35 +6,43 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
 
-    PlayerMovementActions controls;
-    public Vector2 moveInput, rotateInput;
-    public Vector3 rotateDirection, moveDirection;
+    private InputAction moveAction;
+    public Vector2 moveInput;
+    public Vector3 moveDirection;
+
+    private InputAction rotateAction;
+    public Vector2 rotateInput;
+    public Vector3 rotateDirection;
+
     public float speed;
-    public float rotSpeed;
+    private PlayerInput playerInput;
     Rigidbody rb;
-    void Awake()
-    {
-        controls = new PlayerMovementActions();
 
-        controls.Player.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
-        controls.Player.Movement.canceled += context => moveInput = Vector2.zero;
 
-        controls.Player.Rotate.performed += context => rotateInput = context.ReadValue<Vector2>();
-        controls.Player.Rotate.canceled += context => rotateInput = Vector2.zero;
 
-    }
+
+   
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        playerInput = GetComponent<PlayerInput>();
+
+        moveAction = playerInput.actions["Movement"];
+        moveAction.canceled += ctx => moveInput = Vector2.zero;
+
+        rotateAction = playerInput.actions["Rotate"];
+        rotateAction.canceled += ctx => rotateInput = Vector2.zero;
     }
 
     
     void Update()
     {
-        
-        rotateDirection = new Vector3(-rotateInput.x, 0f, -rotateInput.y);
+        moveInput = moveAction.ReadValue<Vector2>();
         moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
 
+        rotateInput = rotateAction.ReadValue<Vector2>();
+        rotateDirection = new Vector3(-rotateInput.x, 0f, -rotateInput.y);
+        
     }
     
     void FixedUpdate()
@@ -46,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
+    /*
     void OnEnable()
     {
         controls.Player.Enable();
@@ -55,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     {
         controls.Player.Disable();
     }
-
+    */
 
 
 
