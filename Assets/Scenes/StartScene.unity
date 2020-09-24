@@ -864,6 +864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actualScene:
     m_Handle: 0
+  playerDataController: {fileID: 0}
 --- !u!4 &1780394213
 Transform:
   m_ObjectHideFlags: 0
