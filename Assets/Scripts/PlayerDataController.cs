@@ -11,77 +11,24 @@ public class PlayerDataController : MonoBehaviour
     //cambiarlo para que instancie los objetos de los players al cambiar de escena!!! aquellos que no tienen player input component
 
     public PlayerInput playerInput;
-    public DuelCase duelCase;
-    private string actionMapUI = "Player_UI";
-    private string actionMapFight = "Player_Fighting";
     public int id;
     public List<Sprite> players;
 
-    public ScenesController scenesController;
+    
     public GameObject fightScene;
     public GameObject controllerConnectionScene;
 
 
 
-    void Update()
-    {
-        //SetControlScheme();
-    }
-
-    void Awake()
-    {
-       
-        DontDestroyOnLoad(this);
-        scenesController = GameObject.FindObjectOfType<ScenesController>(); 
-    }
 
     void Start()
     {
-        //if(SceneManager.GetActiveScene().name == "ControllerConnectionScreen")
-        if(scenesController.futureCase == DuelCase.Connection)
-            SetId();
-        
+        SetId();
     }
 
 
-
-    public void SetDuelCase(DuelCase _duelCase)
-    {
-        duelCase = _duelCase;
-    }
-    /*
-    public void SetControlScheme()
-    {
-        duelCase = scenesController.futureCase;
-        switch (duelCase)
-        {
-            case DuelCase.Fighting:
-                EnableFightingControls();
-                fightScene.SetActive(true);
-                controllerConnectionScene.SetActive(false);
-                break;
-            case DuelCase.Ui:
-                EnableUiControls();
-                fightScene.SetActive(false);
-                controllerConnectionScene.SetActive(true);
-                break;
-        }
-    }*/
-    /*
-    void EnableUiControls()
-    {
-        playerInput.SwitchCurrentActionMap(actionMapUI);
-    }
-    void EnableFightingControls()
-    {
-        playerInput.SwitchCurrentActionMap(actionMapFight);
-    } */
-    public PlayerInput GetPlayerInput()
-    {
-        return playerInput;
-    }
-
-    //called in controllerConnection scene 
+ 
+   
     void SetId()
     {
 
@@ -117,51 +64,22 @@ public class PlayerDataController : MonoBehaviour
     }
 
 
-    /*
-    public Vector3 moveDir;
-    private void OnMovement(InputValue value)
-    {
-        Vector2 inputMovement = value.Get<Vector2>();
-         moveDir = new Vector3(inputMovement.x, 0, inputMovement.y);
-    }
-
-    public Vector3 rotDir;
-    private void OnRotate(InputValue value)
-    {
-        Vector2 inputRotate = value.Get<Vector2>();
-        Debug.Log("Player " +id + " rotated!");
-        rotDir = new Vector3(-inputRotate.x, 0, -inputRotate.y);
-    }
-    private void FixedUpdate()
-    {
-        if(duelCase == DuelCase.Fighting)
-            MovePlayer();
-    }
-    void MovePlayer()
-    {
-        //Debug.LogWarning("PLAYER MOVING");
-        GetComponentInChildren<Rigidbody>().MovePosition(GetComponentInChildren<Rigidbody>().transform.position + moveDir * 10 * Time.fixedDeltaTime);
-
-        if (rotDir != Vector3.zero)
-            GetComponentInChildren<Rigidbody>().transform.rotation = Quaternion.LookRotation(rotDir);
-    }*/
-
-
-
-
-
-
+    public PlayerInput GetPlayerInput() { return playerInput; }
 
     public int GetPlayerIndex() { return id; }
 
 
+}
 
 
-
-
-
-
-
+/*
+ * 
+ * 
+ * 
+ * 
+    public DuelCase duelCase;
+    private string actionMapUI = "Player_UI";
+    private string actionMapFight = "Player_Fighting";
     public enum DuelCase
     {
         Connection,
@@ -175,4 +93,11 @@ public class PlayerDataController : MonoBehaviour
         List<T> list = new List<T>(array);
         return list;
     }
-}
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
