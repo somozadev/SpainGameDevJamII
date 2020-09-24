@@ -8,9 +8,9 @@ using static UnityEngine.InputSystem.InputAction;
 public class InputHandler : MonoBehaviour
 {
 
-    private PlayerDataController player;
-    private PlayerInput playerInput;
-    private InputHolder holder;
+    public PlayerMovement player;  //esto cambiarlo a script que tendra el player inminigamae
+    public PlayerInput playerInput;
+    public InputHolder holder;
 
 
 
@@ -21,7 +21,7 @@ public class InputHandler : MonoBehaviour
 
 
 
-        var players = FindObjectsOfType<PlayerDataController>();
+        var players = FindObjectsOfType<PlayerMovement>();
         player = players.FirstOrDefault(m => m.GetPlayerIndex() == index);
         Debug.Log(player.name + ": " + player.GetPlayerIndex());
 
@@ -29,15 +29,15 @@ public class InputHandler : MonoBehaviour
         holder = player.GetComponentInChildren<InputHolder>();
     }
 
-    public void OnMovement(CallbackContext context)
+    public void OnMovement(InputValue context)
     {
         if (player != null)
-            holder.SetMoveInputVector(context.ReadValue<Vector2>());
+            holder.SetMoveInputVector(context.Get<Vector2>());
     }
-    public void OnRotate(CallbackContext context)
+    public void OnRotate(InputValue context)
     {
         if (player != null)
-            holder.SetLookInputVector(context.ReadValue<Vector2>());
+            holder.SetLookInputVector(context.Get<Vector2>());
     }
 
 

@@ -18,11 +18,11 @@ public class PlayerDataController : MonoBehaviour
     public GameObject fightScene;
     public GameObject controllerConnectionScene;
 
-
-
+    private PlayerConnectionsManager playerConnectionsManager;
 
     void Start()
     {
+        playerConnectionsManager = GameObject.FindObjectOfType<PlayerConnectionsManager>();
         SetId();
     }
 
@@ -31,9 +31,6 @@ public class PlayerDataController : MonoBehaviour
    
     void SetId()
     {
-
-        //AQUI GUARDAR EL DEVICEID QUE APRETE EL BOTON( INPUTSYSTEM.DEVICES[0,1,2,3,4...] Y ASOCIARLO CON EL ID DEL PLAYER de esta forma  if(InputSystem.devices[2].device.IsPressed())
-
 
         transform.position = Vector3.zero;
         Transform controllerConnectionScreenObject = transform.GetChild(0);
@@ -45,17 +42,19 @@ public class PlayerDataController : MonoBehaviour
 
         switch (id)
         {
-            case 1:
+            case 0:
                 controllerConnectionScreenObject.position = new Vector3(-5, 0.34f, 0);
                 controllerConnectionScreenObject.GetComponentInChildren<Canvas>().transform.GetChild(0).GetComponent<RectTransform>().localPosition = new Vector3(-480, -240, 0);
                 controllerConnectionScreenObject.GetChild(1).GetComponent<SpriteRenderer>().sprite = players[0];
                 controllerConnectionScreenObject.GetChild(0).transform.localPosition = new Vector3(-0.37f, 2.04f, 0);
+                //look4decive1
                 break;
-            case 2:
+            case 1:
                 controllerConnectionScreenObject.position = new Vector3(5, 0.34f, 0);
                 controllerConnectionScreenObject.GetComponentInChildren<Canvas>().transform.GetChild(0).GetComponent<RectTransform>().localPosition = new Vector3(480, -240, 0);
                 controllerConnectionScreenObject.GetChild(1).GetComponent<SpriteRenderer>().sprite = players[1];
                 controllerConnectionScreenObject.GetChild(0).transform.localPosition= new Vector3(-0.37f,2.04f,0);
+                //look4device2
                 break;
         }
         foreach (TMP_Text text in controllerConnectionScreenObject.GetComponentsInChildren<TMP_Text>())

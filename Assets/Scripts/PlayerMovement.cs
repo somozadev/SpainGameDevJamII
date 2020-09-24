@@ -6,42 +6,61 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
 
-    private InputAction moveAction;
-    public Vector2 moveInput;
     public Vector3 moveDirection;
-
-    private InputAction rotateAction;
-    public Vector2 rotateInput;
     public Vector3 rotateDirection;
 
+    public int playerId,deviceConnectedId;
+    public bool AmIPlayerOne, AmIPlayerTwo;
     public float speed;
-    private PlayerInput playerInput;
-    Rigidbody rb;
+    private Rigidbody rb;
+    public PlayerConnectionsManager playerConnectionsManager;
+    public InputHolder inputHolder;
 
 
-
-
+    void Awake()
+    {
+        if(AmIPlayerOne){ AmIPlayerTwo = false;}
+        else {AmIPlayerTwo = true;}
+        inputHolder = GetComponentInChildren<InputHolder>();
+    }
    
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        playerInput = transform.parent.GetComponent<PlayerInput>();
-
-        moveAction = playerInput.actions["Movement"];
-        moveAction.canceled += ctx => moveInput = Vector2.zero;
-
-        rotateAction = playerInput.actions["Rotate"];
-        rotateAction.canceled += ctx => rotateInput = Vector2.zero;
+        playerConnectionsManager = GameObject.FindObjectOfType<PlayerConnectionsManager>();
+        if(AmIPlayerOne)
+        {
+            playerId = playerConnectionsManager.playerId1-1;
+            deviceConnectedId = playerConnectionsManager.deviceId1;
+        }
+        if(AmIPlayerTwo)
+        {
+            playerId = playerConnectionsManager.playerId2-1;
+            deviceConnectedId = playerConnectionsManager.deviceId2;
+        }
+        rb = GetComponentInChildren<Rigidbody>();
     }
 
     
     void Update()
     {
-        moveInput = moveAction.ReadValue<Vector2>();
-        moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
-
-        rotateInput = rotateAction.ReadValue<Vector2>();
-        rotateDirection = new Vector3(-rotateInput.x, 0f, -rotateInput.y);
+        moveDirection = new Vector3(inputHolder.movementInput.x, 0f, inputHolder.movementInput.y);
+        if(moveDirection.x > 0 && AmIPlayerOne)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = false;
+        }
+        else if(moveDirection.x > 0 && AmIPlayerTwo)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
+        if(moveDirection.x < 0 && AmIPlayerOne)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
+        else if(moveDirection.x < 0 && AmIPlayerTwo)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = false;
+        }
+        rotateDirection = new Vector3(-inputHolder.lookInput.x, 0f, -inputHolder.lookInput.y);
         
     }
     
@@ -53,17 +72,7 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(rotateDirection);
     }
 
-
-    /*
-    void OnEnable()
-    {
-        controls.Player.Enable();
-    }
-    void OnDisable()
-    {
-        controls.Player.Disable();
-    }
-    */
+    public int GetPlayerIndex() { return playerId; }
 
 
 

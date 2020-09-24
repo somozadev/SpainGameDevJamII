@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerConnectionsManager : MonoBehaviour
 {
-    private PlayerInputManager inputManager;
+    public PlayerInputManager inputManager;
     public int deviceId1,playerId1;
     public int deviceId2, playerId2;
     public bool waitForConnections;
@@ -18,14 +18,29 @@ public class PlayerConnectionsManager : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(this);
         waitForConnections = true;
         devicesConnected = new List<InputDevice>();
-        inputManager = GetComponent<PlayerInputManager>();
+        inputManager = GameObject.FindObjectOfType<PlayerInputManager>();
+    }
+
+    public void FindNewInputManagerReference()
+    {
+        inputManager = GameObject.FindObjectOfType<PlayerInputManager>();
     }
     private void Start()
     {
         
     }
+
+    public void ResetDevices()
+    {
+        foreach(InputDevice device in devicesConnected)
+        {
+           // device.pare
+        }
+    }
+
     private void Update()
     {
         if(waitForConnections)
@@ -39,13 +54,13 @@ public class PlayerConnectionsManager : MonoBehaviour
                 {
                     deviceId1 = dev.deviceId;
                     playerId1 = 1;
-                    Debug.Log("player 1 joined");
+                    //player1 always is the men
                 }
                 if (deviceId2 == 0 && playerId2 == 0 && dev.IsPressed() && GameObject.FindObjectsOfType<PlayerDataController>().Length >= 2)
                 {
                     deviceId2 = dev.deviceId;
                     playerId2 = 2;
-                    Debug.Log("player 2 joined");
+                    //player2 always is the woman
                     waitForConnections = false;
                 }
             }
@@ -60,7 +75,6 @@ public class PlayerConnectionsManager : MonoBehaviour
                     devicesConnected.Remove(d);
             }
         }
-        Debug.Log("COUNT: " + devicesConnected.Count);
     }
 
 }
