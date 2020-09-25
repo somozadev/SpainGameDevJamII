@@ -46,19 +46,19 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = new Vector3(inputHolder.movementInput.x, 0f, inputHolder.movementInput.y);
         if(moveDirection.x > 0 && AmIPlayerOne)
         {
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
+        else if(moveDirection.x < 0 && AmIPlayerOne)
+        {
             GetComponentInChildren<SpriteRenderer>().flipX = false;
         }
-        else if(moveDirection.x > 0 && AmIPlayerTwo)
+        if(moveDirection.x > 0 && AmIPlayerTwo)
         {
-            GetComponentInChildren<SpriteRenderer>().flipX = true;
-        }
-        if(moveDirection.x < 0 && AmIPlayerOne)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = true;
+            GetComponentInChildren<SpriteRenderer>().flipX = false;
         }
         else if(moveDirection.x < 0 && AmIPlayerTwo)
         {
-            GetComponentInChildren<SpriteRenderer>().flipX = false;
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
         }
         rotateDirection = new Vector3(-inputHolder.lookInput.x, 0f, -inputHolder.lookInput.y);
         
@@ -68,11 +68,12 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + moveDirection * speed * Time.fixedDeltaTime);
 
-        if(rotateDirection != Vector3.zero)
-            transform.rotation = Quaternion.LookRotation(rotateDirection);
+        //if(rotateDirection != Vector3.zero)
+            //rb.transform.rotation = Quaternion.LookRotation(rotateDirection);
     }
 
     public int GetPlayerIndex() { return playerId; }
+    public int GetDeviceConnectedId() { return deviceConnectedId; }
 
 
 

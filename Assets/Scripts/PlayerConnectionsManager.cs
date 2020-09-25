@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 
@@ -10,18 +11,21 @@ using UnityEngine.InputSystem;
 public class PlayerConnectionsManager : MonoBehaviour
 {
     public PlayerInputManager inputManager;
+
     public int deviceId1,playerId1;
     public int deviceId2, playerId2;
+    public string deviceName1,deviceName2;
     public bool waitForConnections;
-
-    private List<InputDevice> devicesConnected;
+    public List<PlayerInput> playerInputs;
 
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+
+        if(playerInputs.Count == 0)
+            playerInputs = new List<PlayerInput>();
         waitForConnections = true;
-        devicesConnected = new List<InputDevice>();
         inputManager = GameObject.FindObjectOfType<PlayerInputManager>();
+        DontDestroyOnLoad(this);
     }
 
     public void FindNewInputManagerReference()
@@ -33,13 +37,7 @@ public class PlayerConnectionsManager : MonoBehaviour
         
     }
 
-    public void ResetDevices()
-    {
-        foreach(InputDevice device in devicesConnected)
-        {
-           // device.pare
-        }
-    }
+   
 
     private void Update()
     {
@@ -48,18 +46,19 @@ public class PlayerConnectionsManager : MonoBehaviour
 
             foreach (InputDevice dev in InputSystem.devices)
             {
-                if (dev.IsPressed() && !devicesConnected.Contains(dev) && (dev.deviceId != 0 || dev.deviceId != 1))
-                    devicesConnected.Add(dev);
-                if (deviceId1 == 0 && playerId1 == 0 && dev.IsPressed() && GameObject.FindObjectsOfType<PlayerDataController>().Length == 1)
+              
+                if (GameObject.FindObjectsOfType<PlayerDataController>().Length == 1)
                 {
-                    deviceId1 = dev.deviceId;
+                    deviceId1 = playerInputs[0].devices[0].deviceId;
                     playerId1 = 1;
+                    deviceName1 = playerInputs[0].devices[0].name;
                     //player1 always is the men
                 }
-                if (deviceId2 == 0 && playerId2 == 0 && dev.IsPressed() && GameObject.FindObjectsOfType<PlayerDataController>().Length >= 2)
+                if (GameObject.FindObjectsOfType<PlayerDataController>().Length >= 2)
                 {
-                    deviceId2 = dev.deviceId;
+                    deviceId2 = playerInputs[1].devices[0].deviceId;
                     playerId2 = 2;
+                    deviceName2 = playerInputs[1].devices[0].name;
                     //player2 always is the woman
                     waitForConnections = false;
                 }
@@ -69,11 +68,6 @@ public class PlayerConnectionsManager : MonoBehaviour
         if(!waitForConnections)
         {
             inputManager.DisableJoining();
-            foreach (InputDevice d in devicesConnected)
-            {
-                if (d.name == "Mouse" || d.name == "Keyboard")
-                    devicesConnected.Remove(d);
-            }
         }
     }
 

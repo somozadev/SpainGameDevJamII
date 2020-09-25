@@ -420,7 +420,10 @@ MonoBehaviour:
   playerId1: 0
   deviceId2: 0
   playerId2: 0
+  deviceName1: 
+  deviceName2: 
   waitForConnections: 0
+  playerInputs: []
 --- !u!4 &239347196
 Transform:
   m_ObjectHideFlags: 0
@@ -490,7 +493,7 @@ MonoBehaviour:
   m_ScrollWheelAction: {fileID: 0}
   m_TrackedDevicePositionAction: {fileID: 0}
   m_TrackedDeviceOrientationAction: {fileID: 0}
-  m_DeselectOnBackgroundClick: 1
+  m_DeselectOnBackgroundClick: 0
   m_PointerBehavior: 0
 --- !u!114 &410285130
 MonoBehaviour:

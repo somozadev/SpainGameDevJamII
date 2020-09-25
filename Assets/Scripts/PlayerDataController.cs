@@ -20,9 +20,14 @@ public class PlayerDataController : MonoBehaviour
 
     private PlayerConnectionsManager playerConnectionsManager;
 
-    void Start()
+
+    private void Awake()
     {
         playerConnectionsManager = GameObject.FindObjectOfType<PlayerConnectionsManager>();
+        playerConnectionsManager.playerInputs.Add(this.GetComponent<PlayerInput>());
+    }
+    void Start()
+    {
         SetId();
     }
 
