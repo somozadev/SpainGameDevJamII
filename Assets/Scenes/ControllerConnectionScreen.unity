@@ -1193,6 +1193,14 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 595293478}
+    - target: {fileID: 9082984518004811676, guid: 745845be07bb99f42847c7993f3e0eae, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082984518004811676, guid: 745845be07bb99f42847c7993f3e0eae, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: Player_UI
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745845be07bb99f42847c7993f3e0eae, type: 3}
 --- !u!4 &6009312811355312219 stripped

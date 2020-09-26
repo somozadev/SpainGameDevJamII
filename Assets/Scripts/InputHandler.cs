@@ -13,25 +13,23 @@ public class InputHandler : MonoBehaviour
     public InputHolder holder;
     public PlayerConnectionsManager playerConnectionsManager;
 
-    public int deviceIndex;
+    public int id;
 
 
     private void Start()
     {
         playerConnectionsManager = GameObject.FindObjectOfType<PlayerConnectionsManager>();
         playerInput = this.GetComponent<PlayerInput>();
-        
+        id = playerInput.playerIndex;
        
         var players = FindObjectsOfType<PlayerMovement>();
-        player = players.FirstOrDefault(m => m.GetDeviceConnectedId() == deviceIndex);
+        player = players.FirstOrDefault(m => m.GetPlayerIndex() == id);
 
-        Debug.Log("THIS ID IS : " + playerInput.devices[0].deviceId);
-        Debug.Log("THIS NAME IS : " + playerInput.devices[0].name);
-        Debug.Log(player.name + ": " + player.GetPlayerIndex());
-
+    
 
         holder = player.GetComponentInChildren<InputHolder>();
     }
+    /*
     private void Update()
     {
         if(holder== null)
@@ -39,7 +37,7 @@ public class InputHandler : MonoBehaviour
 
             holder = player.GetComponentInChildren<InputHolder>();
         }
-    }
+    }*/
     public void OnMovement(InputValue context)
     {
         if (player != null)

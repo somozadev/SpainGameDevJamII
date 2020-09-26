@@ -57,7 +57,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player_Fighting
   m_SplitScreenIndex: -1
@@ -74,3 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dfb21a58072277488e25d6a79a73d1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  playerInput: {fileID: 0}
+  holder: {fileID: 0}
+  playerConnectionsManager: {fileID: 0}
+  id: 0

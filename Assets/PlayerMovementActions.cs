@@ -72,6 +72,61 @@ public class @PlayerMovementActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""wasd"",
+                    ""id"": ""b8c6ee3b-960c-4853-b09f-b1a545019559"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""2471bc0b-ef47-4368-aebb-9159d9d48a3e"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""0027fc74-c5ec-4580-ac43-dffa3a7f60ae"",
+                    ""path"": ""<Keyboard>/semicolon"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""c1721568-3f61-4c85-8f07-4ee4e732acf1"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""e9ba5cb2-3cce-4f5e-9e0f-8dcf9c5fcf29"",
+                    ""path"": ""<Keyboard>/quote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""be43c8f9-e7be-4811-80dd-729303d725fa"",
                     ""path"": ""<Gamepad>/rightStick"",
@@ -95,6 +150,28 @@ public class @PlayerMovementActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""6169ba27-f735-4e54-9aa3-fe6e8002365b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""LKeyboard"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3a0ef73-dc45-4502-9d9d-3b4793df38eb"",
+                    ""path"": ""<Keyboard>/leftBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""RKeyboard"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""5136a1b4-2823-4028-abd4-cbc89721f373"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
@@ -106,11 +183,44 @@ public class @PlayerMovementActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7546f400-b2a1-4118-a5d9-f44f1a9402b9"",
+                    ""path"": ""<Keyboard>/backslash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""LKeyboard"",
+                    ""action"": ""UseTool"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""0bf35d58-feb7-401c-9398-7ac745225ac2"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47d61cad-77ca-40fa-8585-a8805e63917c"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""LKeyboard"",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4905670-0884-426b-b94a-594ac3974c9b"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""RKeyboard"",
                     ""action"": ""Drop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -493,7 +603,41 @@ public class @PlayerMovementActions : IInputActionCollection, IDisposable
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""LKeyboard"",
+            ""bindingGroup"": ""LKeyboard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""RKeyboard"",
+            ""bindingGroup"": ""RKeyboard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // Player_Fighting
         m_Player_Fighting = asset.FindActionMap("Player_Fighting", throwIfNotFound: true);
@@ -693,6 +837,33 @@ public class @PlayerMovementActions : IInputActionCollection, IDisposable
         }
     }
     public Player_UIActions @Player_UI => new Player_UIActions(this);
+    private int m_GamepadSchemeIndex = -1;
+    public InputControlScheme GamepadScheme
+    {
+        get
+        {
+            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+            return asset.controlSchemes[m_GamepadSchemeIndex];
+        }
+    }
+    private int m_LKeyboardSchemeIndex = -1;
+    public InputControlScheme LKeyboardScheme
+    {
+        get
+        {
+            if (m_LKeyboardSchemeIndex == -1) m_LKeyboardSchemeIndex = asset.FindControlSchemeIndex("LKeyboard");
+            return asset.controlSchemes[m_LKeyboardSchemeIndex];
+        }
+    }
+    private int m_RKeyboardSchemeIndex = -1;
+    public InputControlScheme RKeyboardScheme
+    {
+        get
+        {
+            if (m_RKeyboardSchemeIndex == -1) m_RKeyboardSchemeIndex = asset.FindControlSchemeIndex("RKeyboard");
+            return asset.controlSchemes[m_RKeyboardSchemeIndex];
+        }
+    }
     public interface IPlayer_FightingActions
     {
         void OnMovement(InputAction.CallbackContext context);
