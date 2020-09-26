@@ -1,78 +1,94 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Enums;
 
 public class PlayerMovement : MonoBehaviour
 {
 
+
+    [SerializeField] int playerID;
+
+    ControlManager controlManager;
+
     public Vector3 moveDirection;
     public Vector3 rotateDirection;
-
-    public int playerId,deviceConnectedId;
-    public bool AmIPlayerOne, AmIPlayerTwo;
+    
     public float speed;
     private Rigidbody rb;
-    public PlayerConnectionsManager playerConnectionsManager;
-    public InputHolder inputHolder;
 
-
-    void Awake()
-    {
-        if(AmIPlayerOne){ AmIPlayerTwo = false;}
-        else {AmIPlayerTwo = true;}
-        inputHolder = GetComponentInChildren<InputHolder>();
-    }
-   
+    private bool isMoving;
+    
     void Start()
     {
-        playerConnectionsManager = GameObject.FindObjectOfType<PlayerConnectionsManager>();
-        if(AmIPlayerOne)
-        {
-            playerId = playerConnectionsManager.playerId1-1;
-            deviceConnectedId = playerConnectionsManager.deviceId1;
-        }
-        if(AmIPlayerTwo)
-        {
-            playerId = playerConnectionsManager.playerId2-1;
-            deviceConnectedId = playerConnectionsManager.deviceId2;
-        }
+        isMoving = false; 
+        controlManager = FindObjectOfType<ControlManager>();
         rb = GetComponentInChildren<Rigidbody>();
     }
 
-    
+    void Movement()
+    {
+        if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.LeftKey)))
+        {
+            moveDirection = Vector3.left;
+            isMoving = true;
+        }
+        if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.RightKey)))
+        {
+            moveDirection = Vector3.right;
+            isMoving = true;
+        }
+        if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.UpKey)))
+        {
+            moveDirection = new Vector3(0, 0, 1);
+            isMoving = true;
+        }
+        if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.DownKey)))
+        {
+            moveDirection = new Vector3(0, 0, -1);
+            isMoving = true;
+        }
+
+    }
+    void Attack()
+    {
+        if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.Action)))
+            Debug.Log("Player " + playerID + " is attacking");
+    }
     void Update()
     {
-        moveDirection = new Vector3(inputHolder.movementInput.x, 0f, inputHolder.movementInput.y);
-        if(moveDirection.x > 0 && AmIPlayerOne)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = false;
-        }
-        else if(moveDirection.x > 0 && AmIPlayerTwo)
+        Movement();
+        Attack();
+        
+        if (moveDirection.x > 0 && playerID == 0)
         {
             GetComponentInChildren<SpriteRenderer>().flipX = true;
         }
-        if(moveDirection.x < 0 && AmIPlayerOne)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = true;
-        }
-        else if(moveDirection.x < 0 && AmIPlayerTwo)
+        else if(moveDirection.x > 0 && playerID == 1)
         {
             GetComponentInChildren<SpriteRenderer>().flipX = false;
         }
-        rotateDirection = new Vector3(-inputHolder.lookInput.x, 0f, -inputHolder.lookInput.y);
+        if(moveDirection.x < 0 && playerID == 0)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = false;
+        }
+        else if(moveDirection.x < 0 && playerID == 1)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
+
         
     }
     
     void FixedUpdate()
     {
+        if (isMoving)
         rb.MovePosition(rb.position + moveDirection * speed * Time.fixedDeltaTime);
+        else
+            rb.MovePosition(rb.position + Vector3.zero);
 
-        if(rotateDirection != Vector3.zero)
-            transform.rotation = Quaternion.LookRotation(rotateDirection);
     }
-
-    public int GetPlayerIndex() { return playerId; }
+    
 
 
 

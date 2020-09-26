@@ -339,6 +339,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScenesController
       objectReference: {fileID: 0}
+    - target: {fileID: 5607355235680983018, guid: a5eb729522748474a996bc186893590f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5607355235680983020, guid: a5eb729522748474a996bc186893590f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -474,24 +478,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 410285128}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_ActionsAsset: {fileID: -944628639613478452, guid: 985a9f184010ba447be36bce2090a6b5, type: 3}
-  m_PointAction: {fileID: -5133820656462011963, guid: 985a9f184010ba447be36bce2090a6b5, type: 3}
-  m_MoveAction: {fileID: -586813676262010486, guid: 985a9f184010ba447be36bce2090a6b5, type: 3}
-  m_SubmitAction: {fileID: 2883813031319610775, guid: 985a9f184010ba447be36bce2090a6b5, type: 3}
-  m_CancelAction: {fileID: -1653335022409091156, guid: 985a9f184010ba447be36bce2090a6b5, type: 3}
-  m_LeftClickAction: {fileID: -6663697906640833141, guid: 985a9f184010ba447be36bce2090a6b5, type: 3}
-  m_MiddleClickAction: {fileID: 0}
-  m_RightClickAction: {fileID: 0}
-  m_ScrollWheelAction: {fileID: 0}
-  m_TrackedDevicePositionAction: {fileID: 0}
-  m_TrackedDeviceOrientationAction: {fileID: 0}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!114 &410285130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -905,7 +901,7 @@ MonoBehaviour:
   m_NotificationBehavior: 0
   m_MaxPlayerCount: 2
   m_AllowJoining: 1
-  m_JoinBehavior: 1
+  m_JoinBehavior: 0
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1185,7 +1181,7 @@ PrefabInstance:
     - target: {fileID: 9082984518004811676, guid: 745845be07bb99f42847c7993f3e0eae, type: 3}
       propertyPath: m_UIInputModule
       value: 
-      objectReference: {fileID: 410285129}
+      objectReference: {fileID: 0}
     - target: {fileID: 9082984518004811676, guid: 745845be07bb99f42847c7993f3e0eae, type: 3}
       propertyPath: m_Camera
       value: 

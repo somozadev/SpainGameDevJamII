@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System;
@@ -9,20 +8,17 @@ using System;
 public class PlayerDataController : MonoBehaviour
 {
     //cambiarlo para que instancie los objetos de los players al cambiar de escena!!! aquellos que no tienen player input component
-
-    public PlayerInput playerInput;
+    
     public int id;
     public List<Sprite> players;
 
     
     public GameObject fightScene;
     public GameObject controllerConnectionScene;
-
-    private PlayerConnectionsManager playerConnectionsManager;
+    
 
     void Start()
     {
-        playerConnectionsManager = GameObject.FindObjectOfType<PlayerConnectionsManager>();
         SetId();
     }
 
@@ -61,10 +57,7 @@ public class PlayerDataController : MonoBehaviour
             text.text = "P " + (id+1).ToString();
 
     }
-
-
-    public PlayerInput GetPlayerInput() { return playerInput; }
-
+    
     public int GetPlayerIndex() { return id; }
 
 
