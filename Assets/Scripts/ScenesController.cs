@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class ScenesController : MonoBehaviour
 {
     [HideInInspector]public Scene actualScene;
-    private Animator anim;
+    public Animator anim;
 
     void Start()
     {

@@ -31,10 +31,7 @@ public class PlayerDataController : MonoBehaviour
         transform.position = Vector3.zero;
         Transform controllerConnectionScreenObject = transform.GetChild(0);
 
-        if (GameObject.FindObjectsOfType<PlayerDataController>().Length == 1)
-            id = 0;
-        else if (GameObject.FindObjectsOfType<PlayerDataController>().Length == 2)
-            id = 1;
+        
 
         switch (id)
         {

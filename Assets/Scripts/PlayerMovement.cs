@@ -16,76 +16,84 @@ public class PlayerMovement : MonoBehaviour
     
     public float speed;
     private Rigidbody rb;
-
-    private bool isMoving;
+    private CharacterController controller;
+    bool isGrounded;
     
     void Start()
     {
-        isMoving = false; 
+        
+        controller = GetComponentInChildren<CharacterController>();
         controlManager = FindObjectOfType<ControlManager>();
         rb = GetComponentInChildren<Rigidbody>();
     }
-
+    void MovePlayer()
+    {
+        controller.Move(moveDirection * Time.deltaTime * speed);
+        //rb.MovePosition(rb.transform.position + moveDirection * speed * Time.deltaTime);
+        //transform.Translate(moveDirection * speed * Time.deltaTime);
+    }
     void Movement()
     {
+        isGrounded = controller.isGrounded;
+
         if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.LeftKey)))
         {
             moveDirection = Vector3.left;
-            isMoving = true;
+            MovePlayer();
         }
         if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.RightKey)))
         {
             moveDirection = Vector3.right;
-            isMoving = true;
+            MovePlayer();
         }
         if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.UpKey)))
         {
             moveDirection = new Vector3(0, 0, 1);
-            isMoving = true;
+            MovePlayer();
         }
         if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.DownKey)))
         {
             moveDirection = new Vector3(0, 0, -1);
-            isMoving = true;
+            MovePlayer();
         }
 
     }
     void Attack()
     {
-        if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.Action)))
+        if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.Attack)))
             Debug.Log("Player " + playerID + " is attacking");
+    }
+    void CheckVisuals()
+    {
+        if (moveDirection.x > 0 && playerID == 0)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
+        else if (moveDirection.x > 0 && playerID == 1)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = false;
+        }
+        if (moveDirection.x < 0 && playerID == 0)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = false;
+        }
+        else if (moveDirection.x < 0 && playerID == 1)
+        {
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
+
     }
     void Update()
     {
         Movement();
         Attack();
-        
-        if (moveDirection.x > 0 && playerID == 0)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = true;
-        }
-        else if(moveDirection.x > 0 && playerID == 1)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = false;
-        }
-        if(moveDirection.x < 0 && playerID == 0)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = false;
-        }
-        else if(moveDirection.x < 0 && playerID == 1)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = true;
-        }
-
-        
+        CheckVisuals();
+       
     }
     
     void FixedUpdate()
     {
-        if (isMoving)
-        rb.MovePosition(rb.position + moveDirection * speed * Time.fixedDeltaTime);
-        else
-            rb.MovePosition(rb.position + Vector3.zero);
+       
 
     }
     

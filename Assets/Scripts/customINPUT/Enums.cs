@@ -6,6 +6,8 @@
         RightKey,
         UpKey,
         DownKey,
-        Action
+        Dash,
+        Roll,
+        Attack
     }
 }
