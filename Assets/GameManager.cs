@@ -14,26 +14,36 @@ public class GameManager : MonoBehaviour
     public int maxRounds;
     public int looserId = -1;
     public int winnerId = -1;
-    public int player1Pts=0, player2Pts=0;
+    public int player1Pts, player2Pts;
     bool canAddpts = true;
+    public GameObject player1, player2;
+    public SOScores sOScores;
+
+    float timeleft =3f;
+    bool startCountDown = false;
+
 
     void Awake()
     {
+        player1Pts = sOScores.p1Score;
+        player2Pts = sOScores.p2Score;
+        p1Points[0].text = sOScores.p1Score.ToString();
+        p1Points[1].text = sOScores.p1Score.ToString();
+        p2Points[0].text = sOScores.p2Score.ToString();
+        p2Points[1].text = sOScores.p2Score.ToString();
+
         scenesController = FindObjectOfType<ScenesController>();
         timer = 300;
-        if(FindObjectsOfType<GameManager>().Length > 1)
-        {
-            foreach (GameManager gm in FindObjectsOfType<GameManager>())
-            {
-                if(gm!=this)
-                    Destroy(gm.gameObject);
-            }
-        }
-        DontDestroyOnLoad(this);
-        FindTextsRefs();
-    }
-    void FindTextsRefs() { }
 
+    }
+    private void Start()
+    {
+        p1Points[0].text = sOScores.p1Score.ToString();
+        p1Points[1].text = sOScores.p1Score.ToString();
+        p2Points[0].text = sOScores.p2Score.ToString();
+        p2Points[1].text = sOScores.p2Score.ToString();
+
+    }
     public void GetWinningId()
     {
         if (looserId == 0)
@@ -41,23 +51,38 @@ public class GameManager : MonoBehaviour
         if (looserId == 1)
             winnerId = 0;
     }
-    // Update is called once per frame
     void Update()
     {
+        if(startCountDown)
+        {
+            timeleft -= Time.deltaTime;
+        }
+        
         if (timer < 0 || winnerId != -1)
         {
+            startCountDown = true;
             //add points, reload scene
             ChangePoints(winnerId); //reference winner player
             if(Convert.ToInt32(p1Points[0].text) >= maxRounds || Convert.ToInt32(p2Points[0].text) >= maxRounds)
             {
-                scenesController.LoadScene(2);
-                winnerId = -1; looserId = -1;
+                
+                if (timeleft <= 0)
+                {
+                    scenesController.LoadScene(0);
+                }
+
+                sOScores.p1Score = 0; sOScores.p2Score=0 ; winnerId = -1; looserId = -1;
 
             }
             else
             {
-                scenesController.LoadScene(0); //o una escena nueva con el sprite del ganador!
-                player1Pts = 0; player2Pts = 0; winnerId = -1; looserId = -1;
+                if (timeleft <= 0)
+                {
+                    scenesController.LoadScene(2);
+                }
+                
+                
+                winnerId = -1; looserId = -1;
             }
         }
         else
@@ -75,9 +100,9 @@ public class GameManager : MonoBehaviour
         {
             if (canAddpts)
             {
-                player1Pts += 1;
-                p1Points[0].text = player2Pts.ToString();
-                p1Points[1].text = player2Pts.ToString();
+                sOScores.p1Score += 1;
+                p1Points[0].text = sOScores.p1Score.ToString();
+                p1Points[1].text = sOScores.p1Score.ToString();
                 canAddpts = false;
             }
         }
@@ -85,9 +110,9 @@ public class GameManager : MonoBehaviour
         {
                 if (canAddpts)
                 {
-                    player2Pts += 1;
-                    p2Points[0].text = player2Pts.ToString();
-                    p2Points[1].text = player2Pts.ToString();
+                sOScores.p2Score += 1;
+                    p2Points[0].text = sOScores.p2Score.ToString();
+                    p2Points[1].text = sOScores.p2Score.ToString();
                     canAddpts = false;
                 }
         }

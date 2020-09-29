@@ -23,17 +23,30 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     bool isGrounded, canRun;
     public bool canAttack;
+    public bool stopAnimations;
 
 
     public RectTransform hpBar;
     public GameObject rightParticleHit,leftParticleHit;
 
+    public PlayerMovement otherPlayer;
 
 
+    public ParticleSystem deadParticle;
+    public ParticleSystem winParticle;
+
+    private bool stopTriggering;
     private Vector3 lastPos = new Vector3(0, 0, 0);
-    
+    public AudioClip punch;
+    public AudioClip hit;
+    public AudioClip run;
+    AudioSource audioSource;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        stopAnimations = false;
+        stopTriggering = false;
         canAttack = true;
         canRun = true;
         animator = GetComponentInChildren<Animator>();
@@ -46,14 +59,23 @@ public class PlayerMovement : MonoBehaviour
     {
         if (canRun)
         {
-            animator.SetBool("isRunning", true);
-            animator.SetBool("isIdle", false);
-            controller.Move(moveDirection * Time.deltaTime * speed);
+            if (!stopAnimations)
+            {
+                animator.SetBool("isRunning", true);
+                animator.SetBool("isIdle", false);
+                if(!audioSource.isPlaying)
+                    audioSource.PlayOneShot(run);
+                controller.Move(moveDirection * Time.deltaTime * speed);
+            }
         }
         else
         {
-            animator.SetBool("isRunning", false);
-            animator.SetBool("isIdle", true);
+            if (!stopAnimations)
+            {
+                animator.SetBool("isRunning", false);
+                animator.SetBool("isIdle", true);
+            }
+            
 
         }
     }
@@ -88,9 +110,14 @@ public class PlayerMovement : MonoBehaviour
             && !Input.GetKey(controlManager.GetKey(playerID, ControlKeys.RightKey)) && !Input.GetKey(controlManager.GetKey(playerID, ControlKeys.LeftKey))
             )
         {
-            animator.SetBool("isIdle", true);
-            animator.SetBool("isRunnning", false);
-            animator.SetBool("isAttacking", false);
+
+            if(!stopAnimations)
+            {
+                animator.SetBool("isIdle", true);
+                animator.SetBool("isRunning", false);
+                animator.SetBool("isAttacking", false);
+
+            }
         }
 
 
@@ -100,18 +127,45 @@ public class PlayerMovement : MonoBehaviour
         int percentaje = 15;
         if(dmgOnce)
         {
-
-            animator.SetTrigger("isDamaged");
             int dmg = Random.Range(10, 15);
 
             if (Random.Range(0, 100) <= percentaje)
                 hp -= dmg * 1.15f;
             else
                 hp -= dmg;
+          
+            if(!stopAnimations)
+            {
+                animator.SetBool("isIdle", false);
+                animator.SetBool("isRunning", false);
+                animator.SetBool("isAttacking", false);
+                animator.SetTrigger("isDamaged");
+            }
+            
 
             UpdateHpVisuals();
             dmgOnce = false;
         }
+    }
+    public void TakeDamage(float dmg)
+    {
+        int percentaje = 15;
+            if (Random.Range(0, 100) <= percentaje)
+                hp -= dmg * 1.15f;
+            else
+                hp -= dmg;
+
+            if (!stopAnimations)
+            {
+                animator.SetBool("isIdle", false);
+                animator.SetBool("isRunning", false);
+                animator.SetBool("isAttacking", false);
+                animator.SetTrigger("isDamaged");
+
+                if (!audioSource.isPlaying)
+                    audioSource.PlayOneShot(hit);
+            }
+            UpdateHpVisuals();     
     }
 
     void UpdateHpVisuals()
@@ -123,9 +177,12 @@ public class PlayerMovement : MonoBehaviour
     }
     IEnumerator WaitAnimationToEnd(int id)
     {
-        animator.SetBool("isAttacking", true);
-        animator.SetBool("isIdle", false);
-        animator.SetBool("isRunning", false);
+        if (!stopAnimations)
+        {
+            animator.SetBool("isAttacking", true);
+            animator.SetBool("isIdle", false);
+            animator.SetBool("isRunning", false);
+        }
         if (id == 0)
             yield return new WaitForSeconds(1f);
         if (id == 1)
@@ -136,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(controlManager.GetKey(playerID, ControlKeys.Attack)) && canAttack==true)
         {
             StartCoroutine("WaitAnimationToEnd", playerID);
+
             canRun = false;
             moveDirection = Vector3.zero;
 
@@ -151,6 +209,8 @@ public class PlayerMovement : MonoBehaviour
                         {
                             StartCoroutine("ParticleWaitToPlay", rightParticleHit.GetComponent<ParticleSystem>());
                             c.GetComponentInParent<PlayerMovement>().SendMessage("TakeDamage", canAttack);
+                            if (!audioSource.isPlaying)
+                                audioSource.PlayOneShot(punch);
                         }
                     }
                 }
@@ -164,6 +224,8 @@ public class PlayerMovement : MonoBehaviour
                         {
                             StartCoroutine("ParticleWaitToPlay", leftParticleHit.GetComponent<ParticleSystem>());
                             c.GetComponentInParent<PlayerMovement>().SendMessage("TakeDamage", canAttack);
+                            if (!audioSource.isPlaying)
+                                audioSource.PlayOneShot(punch);
                         }
                     }
                 }
@@ -179,6 +241,8 @@ public class PlayerMovement : MonoBehaviour
                         {
                             StartCoroutine("ParticleWaitToPlay", rightParticleHit.GetComponent<ParticleSystem>());
                             c.GetComponentInParent<PlayerMovement>().SendMessage("TakeDamage", canAttack);
+                            if (!audioSource.isPlaying)
+                                audioSource.PlayOneShot(punch);
                         }
                     }
                 }
@@ -191,6 +255,8 @@ public class PlayerMovement : MonoBehaviour
                         {
                             StartCoroutine("ParticleWaitToPlay", leftParticleHit.GetComponent<ParticleSystem>());
                             c.GetComponentInParent<PlayerMovement>().SendMessage("TakeDamage", canAttack);
+                            if (!audioSource.isPlaying)
+                                audioSource.PlayOneShot(punch);
                         }
                     }
                 }
@@ -203,47 +269,89 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator ParticleWaitToPlay(ParticleSystem particle)
     {
         yield return new WaitForSeconds(0.28f);
-        particle.Play();
+        if(!stopAnimations)
+            particle.Play();
     }
 
    IEnumerator CanAttackCooldown()
     {
-        yield return new WaitForSeconds(Random.Range(1f,2f));
+        if (playerID == 0)
+            yield return new WaitForSeconds(1.2f);
+        if (playerID == 1)
+            yield return new WaitForSeconds(1.9f);
         canAttack = true;
     }
     void CheckVisuals()
     {
-        if (moveDirection.x > 0 && playerID == 0)
+        if(!stopAnimations)
         {
-            GetComponentInChildren<SpriteRenderer>().flipX = true;
+            if (moveDirection.x > 0 && playerID == 0)
+            {
+                GetComponentInChildren<SpriteRenderer>().flipX = true;
+            }
+            else if (moveDirection.x > 0 && playerID == 1)
+            {
+                GetComponentInChildren<SpriteRenderer>().flipX = false;
+            }
+            if (moveDirection.x < 0 && playerID == 0)
+            {
+                GetComponentInChildren<SpriteRenderer>().flipX = false;
+            }
+            else if (moveDirection.x < 0 && playerID == 1)
+            {
+                GetComponentInChildren<SpriteRenderer>().flipX = true;
+            }
+
         }
-        else if (moveDirection.x > 0 && playerID == 1)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = false;
-        }
-        if (moveDirection.x < 0 && playerID == 0)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = false;
-        }
-        else if (moveDirection.x < 0 && playerID == 1)
-        {
-            GetComponentInChildren<SpriteRenderer>().flipX = true;
-        }
+        
 
     }
     void Update()
     {
+        //if (gameManager != null){ gameManager = FindObjectOfType<GameManager>(); }
         if (!animator.GetBool("isAttacking")) canRun = true; 
         Movement();
         Attack();
         CheckVisuals();
         Dead();
+        if (hp <= 20)
+        {
+            if (!stopAnimations)
+            {
+                animator.SetBool("isIdle", false);
+                animator.SetBool("isRunning", false);
+                animator.SetBool("isAttacking", false);
+                animator.SetTrigger("isDead");
+                stopAnimations = true;
+            }
+            
+        }
+
+        if (otherPlayer.hp <= 20 && !stopTriggering)
+         {
+            stopAnimations = true;
+            animator.SetTrigger("isPrank");
+            winParticle.Play();
+            stopTriggering = true;
+         }
+        
     }
     
     void Dead()
     {
-        if (hp <= 10) 
+        if (hp <= 20) 
         {
+            if(!stopAnimations)
+            {
+                stopAnimations = true;
+                animator.SetTrigger("isDead");
+                otherPlayer.stopAnimations = true;
+                otherPlayer.animator.SetBool("isIdle", false);
+                otherPlayer.animator.SetBool("isRunning", false);
+                otherPlayer.animator.SetBool("isAttacking", false);
+                otherPlayer.animator.SetTrigger("isDead");
+                deadParticle.Play();
+            }
             gameManager.looserId = playerID;
             gameManager.GetWinningId();
         }
